@@ -1,0 +1,23 @@
+{
+  "name": "desk",
+  "version": "1.0.0",
+  "description": "Drive any desktop app and any website from an AI agent. One command, automatic fallback across agent-desktop, Cua Driver, agent-browser and Playwright. macOS, Windows, Linux, Web.",
+  "author": {
+    "name": "Dominik Schenkel",
+    "url": "https://github.com/schenkei-code"
+  },
+  "homepage": "https://github.com/schenkei-code/desk",
+  "repository": "https://github.com/schenkei-code/desk",
+  "license": "MIT",
+  "keywords": [
+    "desktop-automation",
+    "computer-use",
+    "accessibility",
+    "browser-automation",
+    "macos",
+    "windows",
+    "linux",
+    "agents"
+  ],
+  "skills": "./skills/"
+}

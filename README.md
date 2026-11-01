@@ -63,7 +63,27 @@ on Windows), then on your `PATH`. You only need the drivers you actually use:
 | playwright-cli | web (fallback) | ✓ | ✓ | ✓ |
 | agent-reach | read-only platform content | ✓ | ✓ | ✓ |
 
-## Install
+## Install as a plugin
+
+**Codex**
+
+```bash
+codex plugin marketplace add schenkei-code/desk
+codex plugin add desk@desk
+```
+
+**Claude Code**
+
+```
+/plugin marketplace add schenkei-code/desk
+/plugin install desk@desk
+```
+
+The plugin ships the `desk` skill and a bundled copy of `desk.py`, so the agent
+knows the commands, the routing and the safety rules without any setup on your side.
+You still need the drivers you want to use (see [Platforms](#platforms)).
+
+## Install the CLI
 
 **macOS / Linux**
 

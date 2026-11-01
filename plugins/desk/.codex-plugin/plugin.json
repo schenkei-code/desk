@@ -1,0 +1,44 @@
+{
+  "name": "desk",
+  "version": "1.0.0",
+  "description": "Drive any desktop app and any website from an AI agent. One command, automatic fallback across agent-desktop, Cua Driver, agent-browser and Playwright. macOS, Windows, Linux, Web.",
+  "author": {
+    "name": "Dominik Schenkel",
+    "url": "https://github.com/schenkei-code"
+  },
+  "homepage": "https://github.com/schenkei-code/desk",
+  "repository": "https://github.com/schenkei-code/desk",
+  "license": "MIT",
+  "keywords": [
+    "desktop-automation",
+    "computer-use",
+    "accessibility",
+    "browser-automation",
+    "macos",
+    "windows",
+    "linux",
+    "agents"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "desk",
+    "shortDescription": "Drive any desktop app and any website",
+    "longDescription": "desk gives Codex one command for GUI work: click, type, find and screenshot in native apps on macOS, Windows and Linux, and open, read and fill web pages. It routes to agent-desktop first and falls back to Cua Driver, and for the web to agent-browser, agent-reach and Playwright. Every action returns one JSON line naming the driver that did it, and desk never repeats an action that might already have landed.",
+    "developerName": "Dominik Schenkel",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/schenkei-code/desk",
+    "defaultPrompt": [
+      "Open Notes and create a new note that says hello from desk"
+    ],
+    "composerIcon": "./assets/desk-small.svg",
+    "logo": "./assets/desk.png",
+    "screenshots": [
+      "./assets/screenshot.png"
+    ],
+    "brandColor": "#0A0A0A"
+  }
+}

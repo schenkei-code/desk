@@ -1,0 +1,25 @@
+{
+  "name": "desk",
+  "owner": {
+    "name": "Dominik Schenkel",
+    "url": "https://github.com/schenkei-code"
+  },
+  "metadata": {
+    "description": "desk: one command to drive desktop apps and websites from an AI agent.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "desk",
+      "description": "Drive any desktop app and any website from an AI agent. One command, automatic fallback across agent-desktop, Cua Driver, agent-browser and Playwright. macOS, Windows, Linux, Web.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Dominik Schenkel",
+        "url": "https://github.com/schenkei-code"
+      },
+      "source": "./plugins/desk",
+      "category": "development",
+      "homepage": "https://github.com/schenkei-code/desk"
+    }
+  ]
+}

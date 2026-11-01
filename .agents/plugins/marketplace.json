@@ -1,0 +1,12 @@
+{
+  "name": "desk",
+  "plugins": [
+    {
+      "name": "desk",
+      "source": {
+        "source": "local",
+        "path": "./plugins/desk"
+      }
+    }
+  ]
+}
