@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="280" viewBox="0 0 1280 280">
+  <defs>
+    <filter id="sh" x="-20%" y="-30%" width="140%" height="180%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity="0.06"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.06"/>
+    </filter>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#000000" fill-opacity="0.035"/></pattern>
+    <radialGradient id="fade" cx="0.5" cy="0.5" r="0.7"><stop offset="0.3" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#ffffff" stop-opacity="1"/></radialGradient>
+  </defs>
+  <style>.in { animation: enter 400ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } }
+    .d1 { animation-delay: 60ms; }.d2 { animation-delay: 120ms; }.d3 { animation-delay: 180ms; }.d4 { animation-delay: 240ms; } @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</style>
+  <rect width="1280" height="280" rx="16" fill="#ffffff"/>
+  <rect width="1280" height="280" rx="16" fill="url(#dots)"/>
+  <rect x="0.5" y="0.5" width="1279" height="279" rx="16" fill="none" stroke="#e8e8e8"/>
+  <g class="in d1"><g transform="translate(40 40)">
+    <rect width="284" height="200" rx="14" fill="#ffffff" stroke="#e8e8e8" filter="url(#sh)"/>
+    <text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="-0.5" fill="#0a0a0a">macOS</text>
+    <g transform="translate(24 72)"><rect width="160.79999999999998" height="26" rx="13" fill="#f5f5f5" stroke="#e8e8e8"/>
+    <text x="12" y="17.5" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#6f6f6f">Accessibility · AX</text></g>
+    <line x1="24" y1="124" x2="260" y2="124" stroke="#e8e8e8"/>
+    <text x="24" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#6f6f6f">Grant Accessibility and<tspan x="24" dy="22">Screen Recording.</tspan></text>
+    <circle cx="256" cy="44" r="3.5" fill="#16a34a"/>
+  </g></g><g class="in d2"><g transform="translate(346 40)">
+    <rect width="284" height="200" rx="14" fill="#ffffff" stroke="#e8e8e8" filter="url(#sh)"/>
+    <text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="-0.5" fill="#0a0a0a">Windows</text>
+    <g transform="translate(24 72)"><rect width="168.4" height="26" rx="13" fill="#f5f5f5" stroke="#e8e8e8"/>
+    <text x="12" y="17.5" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#6f6f6f">UI Automation · UIA</text></g>
+    <line x1="24" y1="124" x2="260" y2="124" stroke="#e8e8e8"/>
+    <text x="24" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#6f6f6f">Run at the same integrity<tspan x="24" dy="22">level as the target app.</tspan></text>
+    <circle cx="256" cy="44" r="3.5" fill="#16a34a"/>
+  </g></g><g class="in d3"><g transform="translate(652 40)">
+    <rect width="284" height="200" rx="14" fill="#ffffff" stroke="#e8e8e8" filter="url(#sh)"/>
+    <text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="-0.5" fill="#0a0a0a">Linux</text>
+    <g transform="translate(24 72)"><rect width="115.19999999999999" height="26" rx="13" fill="#f5f5f5" stroke="#e8e8e8"/>
+    <text x="12" y="17.5" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#6f6f6f">AT-SPI · X11</text></g>
+    <line x1="24" y1="124" x2="260" y2="124" stroke="#e8e8e8"/>
+    <text x="24" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#6f6f6f">Turn on desktop<tspan x="24" dy="22">accessibility (AT-SPI).</tspan></text>
+    <circle cx="256" cy="44" r="3.5" fill="#16a34a"/>
+  </g></g><g class="in d4"><g transform="translate(958 40)">
+    <rect width="284" height="200" rx="14" fill="#ffffff" stroke="#e8e8e8" filter="url(#sh)"/>
+    <text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="-0.5" fill="#0a0a0a">Web</text>
+    <g transform="translate(24 72)"><rect width="145.6" height="26" rx="13" fill="#f5f5f5" stroke="#e8e8e8"/>
+    <text x="12" y="17.5" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#6f6f6f">Chromium via CLI</text></g>
+    <line x1="24" y1="124" x2="260" y2="124" stroke="#e8e8e8"/>
+    <text x="24" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#6f6f6f">Nothing to grant.<tspan x="24" dy="22">Works on any OS.</tspan></text>
+    <circle cx="256" cy="44" r="3.5" fill="#16a34a"/>
+  </g></g>
+</svg>

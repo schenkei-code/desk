@@ -28,13 +28,33 @@ def tool(name):
     for c in (local, local + ".exe", local + ".cmd"):
         if os.path.isfile(c):
             return c
-    return shutil.which(name) or local
+    # Never pick up a binary planted in the working directory (Windows searches it first).
+    cwd = os.path.normcase(os.path.abspath(os.getcwd()))
+    path = os.pathsep.join(p for p in os.environ.get("PATH", "").split(os.pathsep)
+                           if p and os.path.normcase(os.path.abspath(p)) != cwd)
+    hit = shutil.which(name, path=path)
+    if hit and os.path.isabs(hit) and os.path.normcase(os.path.dirname(os.path.abspath(hit))) != cwd:
+        return hit
+    return local
+
+
+CMD_META = set('&|<>^%!"\r\n')
+
+
+def safe(argv):
+    # .cmd/.bat shims run through cmd.exe, which would re-parse agent-supplied text.
+    if argv[0].lower().endswith((".cmd", ".bat")) and any(ch in CMD_META for a in argv[1:] for ch in a):
+        raise ValueError("argument contains cmd.exe metacharacters; install the .exe build of " + os.path.basename(argv[0]))
+    return argv
 
 
 def handoff(path, args):
     # Windows has no real exec(): run the tool and pass its exit code through.
     if os.name == "nt":
-        sys.exit(subprocess.call([path, *args]))
+        try:
+            sys.exit(subprocess.call(safe([path, *args])))
+        except ValueError as e:
+            emit(ok=False, error=str(e))
     os.execv(path, [path, *args])
 
 
@@ -44,10 +64,12 @@ CUA = tool("cua-driver")
 
 def run(cmd, timeout=60):
     try:
-        p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        p = subprocess.run(safe(cmd), capture_output=True, text=True, timeout=timeout)
         out = p.stdout.strip() or p.stderr.strip()
     except subprocess.TimeoutExpired:
         return {"ok": False, "error": {"code": "TIMEOUT"}}
+    except ValueError as e:
+        return {"ok": False, "error": {"code": "UNSAFE_ARG", "message": str(e)}}
     try:
         return json.loads(out)
     except ValueError:
@@ -227,10 +249,12 @@ REACH = tool("agent-reach")
 
 def sh(cmd, timeout=120):
     try:
-        p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        p = subprocess.run(safe(cmd), capture_output=True, text=True, timeout=timeout)
         return p.returncode, (p.stdout or p.stderr).strip()
     except subprocess.TimeoutExpired:
         return 124, "timeout"
+    except ValueError as e:
+        return 126, str(e)
 
 
 STICKY = os.path.join(os.path.expanduser("~"), ".desk-web-route")

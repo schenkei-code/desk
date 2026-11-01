@@ -1,11 +1,14 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="desk — drive any desktop app and any website from an AI agent" width="100%">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
+  <img src="assets/banner-light.svg" alt="desk — drive any desktop app and any website from an AI agent" width="100%">
+</picture>
 
 <br>
 
 ![python](https://img.shields.io/badge/python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white)
-![deps](https://img.shields.io/badge/dependencies-zero-7cf5c4?style=flat-square&labelColor=151b24)
+![deps](https://img.shields.io/badge/dependencies-zero-16a34a?style=flat-square&labelColor=151b24)
 ![macOS](https://img.shields.io/badge/macOS-supported-e8edf3?style=flat-square&logo=apple&logoColor=white&labelColor=151b24)
 ![Windows](https://img.shields.io/badge/Windows-supported-e8edf3?style=flat-square&logo=windows&logoColor=white&labelColor=151b24)
 ![Linux](https://img.shields.io/badge/Linux-supported-e8edf3?style=flat-square&logo=linux&logoColor=white&labelColor=151b24)
@@ -26,7 +29,10 @@ its own when one of them can't do the job.
 It isn't another automation framework. It's the glue that lets an agent use the
 existing ones without learning four different CLIs.
 
-<img src="assets/routing.svg" alt="desk routes desktop commands to agent-desktop, then Cua via accessibility token, then Cua via pixel click; web commands go to agent-browser, then agent-reach, then playwright" width="100%">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/routing-dark.svg">
+  <img src="assets/routing-light.svg" alt="desk routes desktop commands to agent-desktop, then Cua via accessibility token, then Cua via pixel click; web commands go to agent-browser, then agent-reach, then playwright" width="100%">
+</picture>
 
 ## Why agents like it
 
@@ -41,7 +47,10 @@ existing ones without learning four different CLIs.
 
 ## Platforms
 
-<img src="assets/platforms.svg" alt="macOS uses Accessibility, Windows uses UI Automation, Linux uses AT-SPI on X11, Web uses Chromium" width="100%">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/platforms-dark.svg">
+  <img src="assets/platforms-light.svg" alt="macOS uses Accessibility, Windows uses UI Automation, Linux uses AT-SPI on X11, Web uses Chromium" width="100%">
+</picture>
 
 `desk` looks for each driver in `~/.local/bin` first (including `.exe` and `.cmd`
 on Windows), then on your `PATH`. You only need the drivers you actually use:
@@ -77,6 +86,7 @@ if you want to type `desk` directly.
 
 - **macOS:** give your terminal *Accessibility* and *Screen Recording* access in System Settings → Privacy & Security.
 - **Windows:** run `desk` at the same integrity level as the app you drive. An elevated app needs an elevated terminal.
+  Prefer the `.exe` builds of the drivers. If one is only installed as a `.cmd` shim, `desk` refuses arguments containing cmd.exe metacharacters (`& | < > ^ % ! "`), so nothing an agent types can turn into a shell command.
 - **Linux:** turn on desktop accessibility so the AT-SPI bus is running. On GNOME: `gsettings set org.gnome.desktop.interface toolkit-accessibility true`. X11 sessions get the most complete coverage.
 
 ## Usage
@@ -117,6 +127,16 @@ Every command exits `0` on success and prints a single JSON object:
 - A locked screen means no windows. None of the GUI drivers can see anything.
 - `desk` never types passwords, logs in or buys things. That's a job for a human.
 - It's a router. Coverage on each OS is whatever the drivers underneath support.
+
+## Design
+
+The artwork in `assets/` follows Emil Kowalski's design-engineering rules: a quiet
+monochrome palette, hairline borders, soft layered shadows, and motion only where
+it explains something. Results stack like [Sonner](https://sonner.emilkowal.ski)
+toasts (`ease`, 400ms), the routing path animates with a strong ease-in-out, and
+everything enters with a short 50ms stagger. Each image ships in a light and a dark
+version that follows your GitHub theme, and it all stops moving under
+`prefers-reduced-motion`.
 
 ## License
 

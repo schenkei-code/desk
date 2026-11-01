@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="440" viewBox="0 0 1280 440">
+  <defs>
+    <filter id="sh" x="-20%" y="-30%" width="140%" height="180%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity="0.06"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.06"/>
+    </filter>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#000000" fill-opacity="0.035"/></pattern>
+    <radialGradient id="fade" cx="0.5" cy="0.5" r="0.7"><stop offset="0.3" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#ffffff" stop-opacity="1"/></radialGradient>
+  </defs>
+  <style>
+    .toast { transform-box: view-box; transform-origin: 990px 344px; animation: 2.4s ease both; }
+    .t-c { transform: translateY(-28px) scale(0.9); animation-name: kc; }
+    .t-b { transform: translateY(-14px) scale(0.95); animation-name: kb; }
+    .t-a { transform: translateY(0px) scale(1); animation-name: ka; }
+    @keyframes kc { 0% { transform: translateY(40px) scale(1); opacity: 0 } 6% { transform: translateY(40px) scale(1); opacity: 0 } 23% { transform: translateY(0px) scale(1); opacity: 1 }
+                     38% { transform: translateY(0px) scale(1) } 55% { transform: translateY(-14px) scale(0.95) } 71% { transform: translateY(-14px) scale(0.95) } 88%,100% { transform: translateY(-28px) scale(0.9) } }
+    @keyframes kb { 0%,38% { transform: translateY(40px) scale(1); opacity: 0 } 55% { transform: translateY(0px) scale(1); opacity: 1 } 71% { transform: translateY(0px) scale(1) } 88%,100% { transform: translateY(-14px) scale(0.95); opacity: 1 } }
+    @keyframes ka { 0%,71% { transform: translateY(40px) scale(1); opacity: 0 } 88%,100% { transform: translateY(0px) scale(1); opacity: 1 } }
+    .cursor { animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0 } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</style>
+  <rect width="1280" height="440" rx="16" fill="#ffffff"/>
+  <rect width="1280" height="440" rx="16" fill="url(#dots)"/>
+  <rect width="1280" height="440" rx="16" fill="url(#fade)"/>
+  <rect x="0.5" y="0.5" width="1279" height="439" rx="16" fill="none" stroke="#e8e8e8"/>
+  <g transform="translate(80 92)">
+    <rect width="168" height="28" rx="14" fill="#f5f5f5" stroke="#e8e8e8"/>
+    <circle cx="16" cy="14" r="3.5" fill="#16a34a"/>
+    <text x="28" y="18.5" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="500" fill="#6f6f6f">zero dependencies</text>
+  </g>
+  <text x="76" y="218" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="104" font-weight="650" letter-spacing="-5" fill="#0a0a0a">desk</text>
+  <text x="80" y="268" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="27" letter-spacing="-0.5" fill="#0a0a0a">Drive any desktop app and any website</text>
+  <text x="80" y="302" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="27" letter-spacing="-0.5" fill="#6f6f6f">from an AI agent.</text>
+  <text x="80" y="358" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#a3a3a3" xml:space="preserve">macOS  ·  Windows  ·  Linux  ·  Web</text>
+  <text x="782" y="196" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#6f6f6f">$ <tspan fill="#0a0a0a">desk click --app Notes --name "New Note"</tspan></text>
+  <rect class="cursor" x="1146" y="182" width="8" height="17" rx="1" fill="#a3a3a3"/>
+  <g class="toast t-c"><g transform="translate(780 268)">
+      <rect width="420" height="76" rx="12" fill="#ffffff" stroke="#e8e8e8" filter="url(#sh)"/>
+      <circle cx="30" cy="38.0" r="10" fill="#16a34a"/><path d="M25.5 38.0l3 3 6-6.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="54" y="33" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#0a0a0a">Typed into “Body”</text>
+      <text x="54" y="54" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#6f6f6f">route  cua-ax</text>
+      <text x="398" y="33" text-anchor="end" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#a3a3a3">61ms</text>
+    </g></g><g class="toast t-b"><g transform="translate(780 268)">
+      <rect width="420" height="76" rx="12" fill="#ffffff" stroke="#e8e8e8" filter="url(#sh)"/>
+      <circle cx="30" cy="38.0" r="10" fill="#16a34a"/><path d="M25.5 38.0l3 3 6-6.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="54" y="33" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#0a0a0a">Opened example.com</text>
+      <text x="54" y="54" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#6f6f6f">route  agent-browser</text>
+      <text x="398" y="33" text-anchor="end" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#a3a3a3">412ms</text>
+    </g></g><g class="toast t-a"><g transform="translate(780 268)">
+      <rect width="420" height="76" rx="12" fill="#ffffff" stroke="#e8e8e8" filter="url(#sh)"/>
+      <circle cx="30" cy="38.0" r="10" fill="#16a34a"/><path d="M25.5 38.0l3 3 6-6.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="54" y="33" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#0a0a0a">Clicked “New Note”</text>
+      <text x="54" y="54" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#6f6f6f">route  agent-desktop</text>
+      <text x="398" y="33" text-anchor="end" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#a3a3a3">38ms</text>
+    </g></g>
+</svg>
