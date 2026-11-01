@@ -1,56 +1,83 @@
 <div align="center">
 
-# desk
+<img src="assets/banner.svg" alt="desk — drive any desktop app and any website from an AI agent" width="100%">
 
-**One command to drive any Mac app *and* any website — from an AI agent.**
+<br>
 
-`desk click --app Safari --name "Reload"` &nbsp;·&nbsp; `desk web open https://example.com`
+![python](https://img.shields.io/badge/python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white)
+![deps](https://img.shields.io/badge/dependencies-zero-7cf5c4?style=flat-square&labelColor=151b24)
+![macOS](https://img.shields.io/badge/macOS-supported-e8edf3?style=flat-square&logo=apple&logoColor=white&labelColor=151b24)
+![Windows](https://img.shields.io/badge/Windows-supported-e8edf3?style=flat-square&logo=windows&logoColor=white&labelColor=151b24)
+![Linux](https://img.shields.io/badge/Linux-supported-e8edf3?style=flat-square&logo=linux&logoColor=white&labelColor=151b24)
+![license](https://img.shields.io/badge/license-MIT-e8edf3?style=flat-square&labelColor=151b24)
 
-![python](https://img.shields.io/badge/python-3.9%2B-blue) ![deps](https://img.shields.io/badge/dependencies-zero-brightgreen) ![platform](https://img.shields.io/badge/platform-macOS-lightgrey) ![license](https://img.shields.io/badge/license-MIT-black)
+**One command to drive any desktop app and any website from an AI agent.**<br>
+macOS · Windows · Linux · Web, one interface, automatic fallback.
 
 </div>
 
 ---
 
-Agents are great at text and terrible at GUIs — mostly because every GUI driver
-has its own quirks. `desk` is a tiny **router** (one file, stdlib only) that puts
-the best drivers behind a single, boring, predictable interface and falls back
-automatically when one of them fails.
+Agents are great at text and clumsy with GUIs, mostly because every GUI driver has
+its own quirks. `desk` is a tiny **router** (one file, standard library only) that
+puts the best drivers behind one boring, predictable interface and falls back on
+its own when one of them can't do the job.
 
-It is not a fourth automation framework. It is the glue that makes the existing
-ones usable by an agent without it having to learn four CLIs.
+It isn't another automation framework. It's the glue that lets an agent use the
+existing ones without learning four different CLIs.
 
-## How it routes
+<img src="assets/routing.svg" alt="desk routes desktop commands to agent-desktop, then Cua via accessibility token, then Cua via pixel click; web commands go to agent-browser, then agent-reach, then playwright" width="100%">
 
-```
-desk click|find|type  ──►  agent-desktop   semantic, headless, explicit delivery info
-                              │ not found / not delivered
-                              ▼
-                           cua-driver       accessibility token → pixel click from element frame
+## Why agents like it
 
-desk web …            ──►  agent-browser ──► playwright-cli   (read also tries agent-reach)
-```
+|  |  |
+|---|---|
+| **One JSON line per command** | `{"ok": true, "route": "agent-desktop", …}` is easy to parse and easy to log, and it always says *which* driver did the work. |
+| **No accidental double clicks** | If a driver reports that an action *might* already have landed (`uncertain: true`), `desk` stops instead of sending it again through another backend. Read the state first, then decide. |
+| **Same commands everywhere** | `desk click --app … --name …` reads the same on macOS, Windows and Linux. The drivers handle AX, UIA and AT-SPI underneath. |
+| **Unicode-proof app names** | Names with soft hyphens (`System­einstellungen`) or odd casing still match, because they are NFC-normalized and case-folded first. |
+| **Sticky browser sessions** | The browser that opened a page stays in front for later steps, so element refs stay valid. |
+| **Zero dependencies** | One Python file, standard library only. Drop it anywhere. |
 
-- **Mac apps:** [agent-desktop](https://github.com/vercel-labs/agent-desktop) first, [Cua Driver](https://github.com/trycua/cua) as fallback (AX token, then a pixel click computed from the element frame).
-- **Web:** `agent-browser` first, `playwright-cli` as fallback. The browser that opened a page stays in front for follow-up steps, so element refs stay valid within a session.
-- **Reading platforms:** `desk reach …` hands off to Agent-Reach (read-only: GitHub, YouTube captions, Reddit, X, …).
+## Platforms
 
-## Why it's nice for agents
+<img src="assets/platforms.svg" alt="macOS uses Accessibility, Windows uses UI Automation, Linux uses AT-SPI on X11, Web uses Chromium" width="100%">
 
-- **One JSON line per command** — `{"ok": true, "route": "agent-desktop", …}`. Easy to parse, easy to log, always tells you *which* driver did the work.
-- **Never double-clicks by accident.** If agent-desktop reports that an action *might* have landed (`uncertain: true`), `desk` stops instead of re-sending it through another backend. Read state first, then decide.
-- **Unicode-proof app names.** macOS app names with soft hyphens (`System­einstellungen`) just work — names are NFC-normalized and case-folded before matching.
-- **Window picking that makes sense.** Prefers titled, widest windows; falls back from exact label to substring match.
-- **Zero dependencies.** One Python file, standard library only.
+`desk` looks for each driver in `~/.local/bin` first (including `.exe` and `.cmd`
+on Windows), then on your `PATH`. You only need the drivers you actually use:
+
+| Driver | Used for | macOS | Windows | Linux |
+|---|---|:---:|:---:|:---:|
+| [agent-desktop](https://github.com/vercel-labs/agent-desktop) | desktop apps (primary) | ✓ | ✓ | ✓ |
+| [cua-driver](https://github.com/trycua/cua) | desktop apps (fallback, screenshots) | ✓ | ✓ | ✓ |
+| agent-browser | web (primary) | ✓ | ✓ | ✓ |
+| playwright-cli | web (fallback) | ✓ | ✓ | ✓ |
+| agent-reach | read-only platform content | ✓ | ✓ | ✓ |
 
 ## Install
+
+**macOS / Linux**
 
 ```bash
 git clone https://github.com/schenkei-code/desk.git
 install -m 755 desk/desk.py ~/.local/bin/desk
 ```
 
-`desk` expects the drivers it routes to at `~/.local/bin/` — `agent-desktop`, `cua-driver`, `agent-browser`, `playwright-cli`, `agent-reach`. You only need the ones you use. On macOS grant your terminal **Accessibility** and **Screen Recording** permission.
+**Windows** (PowerShell)
+
+```powershell
+git clone https://github.com/schenkei-code/desk.git
+py desk\desk.py apps
+```
+
+On Windows, put a small `desk.cmd` on your `PATH` containing `@py "%~dp0desk.py" %*`
+if you want to type `desk` directly.
+
+**Permissions**
+
+- **macOS:** give your terminal *Accessibility* and *Screen Recording* access in System Settings → Privacy & Security.
+- **Windows:** run `desk` at the same integrity level as the app you drive. An elevated app needs an elevated terminal.
+- **Linux:** turn on desktop accessibility so the AT-SPI bus is running. On GNOME: `gsettings set org.gnome.desktop.interface toolkit-accessibility true`. X11 sessions get the most complete coverage.
 
 ## Usage
 
@@ -70,17 +97,26 @@ desk reach read https://github.com/vercel-labs/agent-desktop
 desk ad | cua | ab | pw | reach …                      # raw passthrough to each driver
 ```
 
-Every command exits `0` on success and prints a single JSON object, e.g.:
+The same commands work on Windows (`--app Notepad`) and Linux (`--app gedit`).
+Every command exits `0` on success and prints a single JSON object:
 
 ```json
 {"ok": true, "route": "cua-pixel", "effect": "delivered", "label": "Reload"}
 ```
 
+| `route` | Meaning |
+|---|---|
+| `agent-desktop` | Found and acted on semantically, delivery confirmed |
+| `cua` / `cua-ax` | Fallback through an accessibility element token |
+| `cua-pixel` | Last resort: a click at the center of the element's frame |
+| `agent-browser` / `playwright-cli` / `agent-reach` | Web route that handled the command |
+| `none` | Nothing matched; the error says why |
+
 ## Limits (on purpose)
 
-- A locked screen means no windows — both GUI drivers see nothing.
-- `desk` never types passwords, logs in, or buys things. That's for a human.
-- macOS only for the GUI half; the web half works wherever the browser CLIs do.
+- A locked screen means no windows. None of the GUI drivers can see anything.
+- `desk` never types passwords, logs in or buys things. That's a job for a human.
+- It's a router. Coverage on each OS is whatever the drivers underneath support.
 
 ## License
 

@@ -1,5 +1,5 @@
-#!/usr/bin/python3
-"""desk — one desktop-control front for agents.
+#!/usr/bin/env python3
+"""desk — one desktop-control front for agents (macOS, Windows, Linux).
 
 Tries Vercel agent-desktop first (semantic, headless, explicit delivery/retry),
 falls back to Cua Driver (background AX, then pixel click from the element frame).
@@ -18,10 +18,28 @@ Playwright MCP is registered in Claude as server "playwright" (system Chrome).
 
 Every command prints one JSON line: {"ok", "route", ...}.
 """
-import argparse, base64, json, os, subprocess, sys, unicodedata
+import argparse, base64, json, os, shutil, subprocess, sys, unicodedata
 
-AD = os.path.expanduser("~/.local/bin/agent-desktop")
-CUA = os.path.expanduser("~/.local/bin/cua-driver")
+
+def tool(name):
+    # Prefer ~/.local/bin (where the installers drop them), then anything on PATH.
+    # On Windows the same tools ship as .exe or, for npm ones, .cmd shims.
+    local = os.path.join(os.path.expanduser("~"), ".local", "bin", name)
+    for c in (local, local + ".exe", local + ".cmd"):
+        if os.path.isfile(c):
+            return c
+    return shutil.which(name) or local
+
+
+def handoff(path, args):
+    # Windows has no real exec(): run the tool and pass its exit code through.
+    if os.name == "nt":
+        sys.exit(subprocess.call([path, *args]))
+    os.execv(path, [path, *args])
+
+
+AD = tool("agent-desktop")
+CUA = tool("cua-driver")
 
 
 def run(cmd, timeout=60):
@@ -202,9 +220,9 @@ def cmd_apps(_):
 
 # ---------- web (browser) ----------
 
-AB = os.path.expanduser("~/.local/bin/agent-browser")
-PW = os.path.expanduser("~/.local/bin/playwright-cli")
-REACH = os.path.expanduser("~/.local/bin/agent-reach")
+AB = tool("agent-browser")
+PW = tool("playwright-cli")
+REACH = tool("agent-reach")
 
 
 def sh(cmd, timeout=120):
@@ -215,7 +233,7 @@ def sh(cmd, timeout=120):
         return 124, "timeout"
 
 
-STICKY = os.path.expanduser("~/.desk-web-route")
+STICKY = os.path.join(os.path.expanduser("~"), ".desk-web-route")
 
 
 def chain(steps):
@@ -255,14 +273,13 @@ def cmd_web(argv):
         pw = [PW, "screenshot", "--filename", rest[0], *rest[1:]] if rest else [PW, "screenshot"]
         chain([("agent-browser", [AB, "screenshot", *rest]), ("playwright-cli", pw)])
     # Anything else goes to agent-browser unchanged.
-    os.execv(AB, [AB, op, *rest])
+    handoff(AB, [op, *rest])
 
 
 def main():
     raw = {"ad": AD, "cua": CUA, "ab": AB, "pw": PW, "reach": REACH}
     if len(sys.argv) > 1 and sys.argv[1] in raw:
-        tool = raw[sys.argv[1]]
-        os.execv(tool, [tool] + sys.argv[2:])
+        handoff(raw[sys.argv[1]], sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] == "web":
         cmd_web(sys.argv[2:])
     p = argparse.ArgumentParser(prog="desk", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

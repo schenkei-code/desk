@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="560" viewBox="0 0 1280 560">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5b6778"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7cf5c4"/></marker>
+  </defs>
+  <rect width="1280" height="560" rx="20" fill="#0d1117"/>
+  <g font-family="-apple-system, 'Segoe UI', Inter, Helvetica, Arial, sans-serif">
+    <text x="64" y="66" font-size="26" font-weight="700" fill="#e8edf3">How desk routes a command</text>
+    <text x="64" y="96" font-size="17" fill="#7d8796">First driver that succeeds wins. If an action might already have landed, desk stops instead of retrying elsewhere.</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
+    <!-- GUI lane -->
+    <text x="64" y="160" font-size="13" fill="#7d8796" letter-spacing="2">DESKTOP APPS · macOS · Windows · Linux</text>
+    <g transform="translate(64 180)"><rect width="250" height="96" rx="14" fill="#151b24" stroke="#2c3747"/><text x="24" y="42" font-size="20" fill="#e8edf3" font-weight="700">desk click</text><text x="24" y="70" font-size="14" fill="#7d8796">find · type · shot · apps</text></g>
+    <path d="M314 228H392" stroke="#7cf5c4" stroke-width="2.5" marker-end="url(#g)"/>
+    <g transform="translate(398 180)"><rect width="270" height="96" rx="14" fill="#122019" stroke="#7cf5c4" stroke-opacity="0.6"/><text x="24" y="42" font-size="20" fill="#7cf5c4" font-weight="700">agent-desktop</text><text x="24" y="70" font-size="14" fill="#9fb3a9">semantic · headless</text></g>
+    <path d="M668 228H746" stroke="#5b6778" stroke-width="2.5" stroke-dasharray="6 6" marker-end="url(#a)"/>
+    <text x="676" y="214" font-size="12" fill="#7d8796">fallback</text>
+    <g transform="translate(752 180)"><rect width="200" height="96" rx="14" fill="#151b24" stroke="#2c3747"/><text x="24" y="42" font-size="20" fill="#e8edf3" font-weight="700">cua · AX</text><text x="24" y="70" font-size="14" fill="#7d8796">element token</text></g>
+    <path d="M952 228H1030" stroke="#5b6778" stroke-width="2.5" stroke-dasharray="6 6" marker-end="url(#a)"/>
+    <g transform="translate(1036 180)"><rect width="180" height="96" rx="14" fill="#151b24" stroke="#2c3747"/><text x="24" y="42" font-size="20" fill="#e8edf3" font-weight="700">cua · pixel</text><text x="24" y="70" font-size="14" fill="#7d8796">element frame</text></g>
+    <!-- uncertain stop -->
+    <path d="M533 276V318" stroke="#f5a97c" stroke-width="2" marker-end="url(#a)"/>
+    <g transform="translate(418 322)"><rect width="230" height="36" rx="18" fill="#2a1c14" stroke="#f5a97c" stroke-opacity="0.6"/><text x="115" y="23" text-anchor="middle" font-size="13" fill="#f5c9a9">uncertain → stop, read state</text></g>
+    <!-- Web lane -->
+    <text x="64" y="414" font-size="13" fill="#7d8796" letter-spacing="2">WEB · any OS</text>
+    <g transform="translate(64 434)"><rect width="250" height="80" rx="14" fill="#151b24" stroke="#2c3747"/><text x="24" y="36" font-size="20" fill="#e8edf3" font-weight="700">desk web</text><text x="24" y="60" font-size="14" fill="#7d8796">open · read · click</text></g>
+    <path d="M314 474H392" stroke="#7cf5c4" stroke-width="2.5" marker-end="url(#g)"/>
+    <g transform="translate(398 434)"><rect width="270" height="80" rx="14" fill="#122019" stroke="#7cf5c4" stroke-opacity="0.6"/><text x="24" y="36" font-size="20" fill="#7cf5c4" font-weight="700">agent-browser</text><text x="24" y="60" font-size="14" fill="#9fb3a9">sticky session per page</text></g>
+    <path d="M668 474H746" stroke="#5b6778" stroke-width="2.5" stroke-dasharray="6 6" marker-end="url(#a)"/>
+    <g transform="translate(752 434)"><rect width="200" height="80" rx="14" fill="#151b24" stroke="#2c3747"/><text x="24" y="36" font-size="20" fill="#e8edf3" font-weight="700">agent-reach</text><text x="24" y="60" font-size="14" fill="#7d8796">read only</text></g>
+    <path d="M952 474H1030" stroke="#5b6778" stroke-width="2.5" stroke-dasharray="6 6" marker-end="url(#a)"/>
+    <g transform="translate(1036 434)"><rect width="180" height="80" rx="14" fill="#151b24" stroke="#2c3747"/><text x="24" y="36" font-size="20" fill="#e8edf3" font-weight="700">playwright</text><text x="24" y="60" font-size="14" fill="#7d8796">last resort</text></g>
+  </g>
+</svg>
