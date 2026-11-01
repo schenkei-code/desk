@@ -8,13 +8,13 @@
 <br>
 
 ![python](https://img.shields.io/badge/python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white)
-![deps](https://img.shields.io/badge/dependencies-zero-16a34a?style=flat-square&labelColor=151b24)
-![macOS](https://img.shields.io/badge/macOS-supported-e8edf3?style=flat-square&logo=apple&logoColor=white&labelColor=151b24)
-![Windows](https://img.shields.io/badge/Windows-supported-e8edf3?style=flat-square&logo=windows&logoColor=white&labelColor=151b24)
-![Linux](https://img.shields.io/badge/Linux-supported-e8edf3?style=flat-square&logo=linux&logoColor=white&labelColor=151b24)
+![deps](https://img.shields.io/badge/python_deps-none-16a34a?style=flat-square&labelColor=151b24)
+![macOS](https://img.shields.io/badge/macOS-daily_use-e8edf3?style=flat-square&logo=apple&logoColor=white&labelColor=151b24)
+![Windows](https://img.shields.io/badge/Windows-experimental-e8edf3?style=flat-square&logo=windows&logoColor=white&labelColor=151b24)
+![Linux](https://img.shields.io/badge/Linux-experimental-e8edf3?style=flat-square&logo=linux&logoColor=white&labelColor=151b24)
 ![license](https://img.shields.io/badge/license-MIT-e8edf3?style=flat-square&labelColor=151b24)
 
-**One command to drive any desktop app and any website from an AI agent.**<br>
+**One command to drive desktop apps and websites from an AI agent.**<br>
 macOS · Windows · Linux · Web, one interface, automatic fallback.
 
 </div>
@@ -39,11 +39,11 @@ existing ones without learning four different CLIs.
 |  |  |
 |---|---|
 | **One JSON line per command** | `{"ok": true, "route": "agent-desktop", …}` is easy to parse and easy to log, and it always says *which* driver did the work. |
-| **No accidental double clicks** | If a driver reports that an action *might* already have landed (`uncertain: true`), `desk` stops instead of sending it again through another backend. Read the state first, then decide. |
+| **No accidental double clicks** | `desk` only tries the next driver when the previous one provably did *not* deliver. A timeout, an unverifiable click or a suspected no-op comes back as `uncertain: true` instead of being replayed. Web clicks and fills never jump to a second browser. Read the state first, then decide. |
 | **Same commands everywhere** | `desk click --app … --name …` reads the same on macOS, Windows and Linux. The drivers handle AX, UIA and AT-SPI underneath. |
 | **Unicode-proof app names** | Names with soft hyphens (`System­einstellungen`) or odd casing still match, because they are NFC-normalized and case-folded first. |
 | **Sticky browser sessions** | The browser that opened a page stays in front for later steps, so element refs stay valid. |
-| **Zero dependencies** | One Python file, standard library only. Drop it anywhere. |
+| **No Python dependencies** | One file, standard library only. You bring the drivers you want to use. |
 
 ## Platforms
 
@@ -51,6 +51,8 @@ existing ones without learning four different CLIs.
   <source media="(prefers-color-scheme: dark)" srcset="assets/platforms-dark.svg">
   <img src="assets/platforms-light.svg" alt="macOS uses Accessibility, Windows uses UI Automation, Linux uses AT-SPI on X11, Web uses Chromium" width="100%">
 </picture>
+
+macOS is what desk is used on every day. Windows and Linux are supported in the code and by the drivers, but haven't been tested end to end yet. Reports are very welcome.
 
 `desk` looks for each driver in `~/.local/bin` first (including `.exe` and `.cmd`
 on Windows), then on your `PATH`. You only need the drivers you actually use:
@@ -138,9 +140,11 @@ Every command exits `0` on success and prints a single JSON object:
 |---|---|
 | `agent-desktop` | Found and acted on semantically, delivery confirmed |
 | `cua` / `cua-ax` | Fallback through an accessibility element token |
-| `cua-pixel` | Last resort: a click at the center of the element's frame |
+| `cua-pixel` | Last resort after Cua *refused* the accessibility click: a click at the center of the element's frame |
 | `agent-browser` / `playwright-cli` / `agent-reach` | Web route that handled the command |
 | `none` | Nothing matched; the error says why |
+
+Any result with `"uncertain": true` means the action may have landed. Don't repeat it blindly.
 
 ## Limits (on purpose)
 

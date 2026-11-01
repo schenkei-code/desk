@@ -24,12 +24,12 @@
   <rect width="1280" height="440" rx="16" fill="url(#fade)"/>
   <rect x="0.5" y="0.5" width="1279" height="439" rx="16" fill="none" stroke="#e8e8e8"/>
   <g transform="translate(80 92)">
-    <rect width="168" height="28" rx="14" fill="#f5f5f5" stroke="#e8e8e8"/>
+    <rect width="190" height="28" rx="14" fill="#f5f5f5" stroke="#e8e8e8"/>
     <circle cx="16" cy="14" r="3.5" fill="#16a34a"/>
-    <text x="28" y="18.5" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="500" fill="#6f6f6f">zero dependencies</text>
+    <text x="28" y="18.5" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="500" fill="#6f6f6f">one file · stdlib only</text>
   </g>
   <text x="76" y="218" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="104" font-weight="650" letter-spacing="-5" fill="#0a0a0a">desk</text>
-  <text x="80" y="268" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="27" letter-spacing="-0.5" fill="#0a0a0a">Drive any desktop app and any website</text>
+  <text x="80" y="268" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="27" letter-spacing="-0.5" fill="#0a0a0a">Drive desktop apps and websites</text>
   <text x="80" y="302" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="27" letter-spacing="-0.5" fill="#6f6f6f">from an AI agent.</text>
   <text x="80" y="358" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#a3a3a3" xml:space="preserve">macOS  ·  Windows  ·  Linux  ·  Web</text>
   <text x="782" y="196" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#6f6f6f">$ <tspan fill="#0a0a0a">desk click --app Notes --name "New Note"</tspan></text>

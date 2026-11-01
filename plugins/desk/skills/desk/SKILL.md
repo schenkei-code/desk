@@ -36,7 +36,7 @@ Resolve `scripts/desk.py` relative to this SKILL.md.
 ## Rules
 
 1. Read `route` in every result so you know which driver acted.
-2. If a result has `"uncertain": true`, the action may already have landed. Do **not** repeat it. Read the state (`desk find`, `desk shot`, `desk web snapshot`) and decide.
+2. If a result has `"uncertain": true` (a timeout, an unverifiable or suspected no-op click, a failed web click), the action may already have landed. Do **not** repeat it. Read the state (`desk find`, `desk shot`, `desk web snapshot`) and decide.
 3. After `desk web open`, keep using `desk web …` for that page. desk keeps the same browser in front so `@refs` stay valid.
 4. `route: "none"` means no driver matched. Check the label with `desk find` or a snapshot before guessing coordinates.
 5. Never type passwords, sign in, accept terms or buy anything through desk. Hand that to the user.

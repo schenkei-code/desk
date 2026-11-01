@@ -14,8 +14,6 @@ falls back to Cua Driver (background AX, then pixel click from the element frame
   desk ad|cua|ab|pw|reach ...   raw agent-desktop / cua-driver / agent-browser /
                                 playwright-cli / agent-reach
 
-Playwright MCP is registered in Claude as server "playwright" (system Chrome).
-
 Every command prints one JSON line: {"ok", "route", ...}.
 """
 import argparse, base64, json, os, shutil, subprocess, sys, unicodedata
@@ -112,6 +110,12 @@ def ad_find(a):
     return None, r
 
 
+def ad_maybe_landed(r):
+    # A timeout tells us nothing about delivery, so it counts as "may have landed".
+    err = r.get("error") or {}
+    return err.get("code") == "TIMEOUT" or err.get("disposition", {}).get("delivery") not in (None, "not_delivered")
+
+
 def ad_delivered(r):
     disp = (r.get("data") or {}).get("disposition") or (r.get("error") or {}).get("disposition") or {}
     return r.get("ok") and disp.get("delivery", "delivered") != "not_delivered"
@@ -166,7 +170,8 @@ def cua_click(w, st, e):
     base = {"pid": w["pid"], "window_id": w["window_id"]}
     r = run([CUA, "click", json.dumps({**base, "element_token": e["element_token"]})])
     eff = r.get("structuredContent", r).get("effect", r.get("effect"))
-    if eff not in ("refused", "suspected_noop") and r.get("ok", True) is not False:
+    if eff != "refused":
+        # Only "refused" proves nothing was delivered; anything else may have landed.
         return "cua-ax", eff
     px = pixel_of(st, e)
     if not px:
@@ -194,15 +199,18 @@ def cmd_click(a):
         c = run([AD, "click", ref])
         if ad_delivered(c):
             emit(ok=True, route="agent-desktop", ref=ref, disposition=c.get("data", {}).get("disposition"))
-        disp = (c.get("error") or {}).get("disposition", {})
-        if disp.get("delivery") not in (None, "not_delivered"):
+        if ad_maybe_landed(c):
             # May have landed: never click a second time through another backend.
             emit(ok=False, route="agent-desktop", uncertain=True, result=c)
     w, st, e = cua_locate(a)
     if not e:
         emit(ok=False, route="none", agent_desktop=(r or {}).get("error"))
     route, eff = cua_click(w, st, e)
-    emit(ok=eff not in ("refused",), route=route, effect=eff, label=e.get("label"))
+    if eff in ("refused",):
+        emit(ok=False, route=route, effect=eff, label=e.get("label"))
+    if eff == "confirmed":
+        emit(ok=True, route=route, effect=eff, label=e.get("label"))
+    emit(ok=False, route=route, uncertain=True, effect=eff, label=e.get("label"))
 
 
 def cmd_type(a):
@@ -211,7 +219,7 @@ def cmd_type(a):
         c = run([AD, "type", ref, a.text])
         if ad_delivered(c):
             emit(ok=True, route="agent-desktop", ref=ref)
-        if (c.get("error") or {}).get("disposition", {}).get("delivery") not in (None, "not_delivered"):
+        if ad_maybe_landed(c):
             emit(ok=False, route="agent-desktop", uncertain=True, result=c)
     w, st, e = cua_locate(a)
     if not e:
@@ -219,7 +227,7 @@ def cmd_type(a):
     r = run([CUA, "type_text", json.dumps({"pid": w["pid"], "window_id": w["window_id"],
                                            "element_token": e["element_token"], "text": a.text})])
     eff = r.get("structuredContent", r).get("effect", r.get("effect"))
-    emit(ok=eff != "refused", route="cua", effect=eff)
+    emit(ok=eff == "confirmed", route="cua", effect=eff, **({} if eff in ("confirmed", "refused") else {"uncertain": True}))
 
 
 def cmd_shot(a):
@@ -260,14 +268,19 @@ def sh(cmd, timeout=120):
 STICKY = os.path.join(os.path.expanduser("~"), ".desk-web-route")
 
 
+def sticky():
+    try:
+        return open(STICKY).read().strip()
+    except OSError:
+        return None
+
+
 def chain(steps):
     # Each step: (route, argv). First one that exits 0 wins. The browser that
     # opened the page goes first for later steps, so refs stay in one session.
-    try:
-        last = open(STICKY).read().strip()
+    last = sticky()
+    if last:
         steps = sorted(steps, key=lambda s: s[0] != last)
-    except OSError:
-        pass
     tried = []
     for route, argv in steps:
         code, out = sh(argv)
@@ -292,7 +305,13 @@ def cmd_web(argv):
     if op == "snapshot":
         chain([("agent-browser", [AB, "snapshot", "-i", *rest]), ("playwright-cli", [PW, "snapshot", *rest])])
     if op in ("click", "fill", "type", "check", "uncheck", "select", "hover"):
-        chain([("agent-browser", [AB, op, *rest]), ("playwright-cli", [PW, op, *rest])])
+        # Refs belong to one browser session, and a failed click or fill may still
+        # have landed: never replay it in the other browser.
+        owner = sticky() or "agent-browser"
+        code, out = sh([AB if owner == "agent-browser" else PW, op, *rest])
+        if code == 0:
+            emit(ok=True, route=owner, out=out[:20000])
+        emit(ok=False, route=owner, uncertain=code == 124, code=code, out=out[:300])
     if op == "shot":
         pw = [PW, "screenshot", "--filename", rest[0], *rest[1:]] if rest else [PW, "screenshot"]
         chain([("agent-browser", [AB, "screenshot", *rest]), ("playwright-cli", pw)])
